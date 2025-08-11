@@ -1,15 +1,9 @@
 module TrajectoryIndexingUtils
 
-```@docs
-
-Test!
-
+@doc raw"""
 ```
+TrajectoryIndexingUtils
 
-export index
-export slice
-
-"""
 this module contains helper functions for indexing and taking slices of the full problem variable vector
 definitions:
 the problem vector: Z = [z₁, z₂, ..., zT]
@@ -36,7 +30,18 @@ zₜ[n_wfn_states .+ slice(2, ncontrols)]          = aₜ
 zₜ[n_wfn_states .+ slice(augdim + 1, ncontrols)] = uₜ = ddaₜ
 """
 
-"""@doc
+Examples below are run with:
+```jldoctest
+using TrajectoryIndexingUtils
+Z = collect(1:12)  # Example vector
+dim = 3  # Example dimension
+```
+"""
+
+export index
+export slice
+
+"""
     index(t::Int, pos::Int, dim::Int)
 Calculate the index in the full problem vector for a given time step `t`, position `pos`, and dimension `dim`.
 
@@ -47,7 +52,7 @@ julia> Z[index(1, 1, 3)]
 """
 index(t::Int, pos::Int, dim::Int) = dim * (t - 1) + pos
 
-"""@doc
+"""
     index(t::Int, dim::Int)
 Calculate the index in the full problem vector for a given time step `t` and dimension `dim`. Assumes `pos` is equal to `dim`.
 
@@ -58,7 +63,7 @@ julia> Z[index(t, dim)]
 """
 index(t, dim) = index(t, dim, dim)
 
-"""@doc
+"""
     slice(t::Int, pos1::Int, pos2::Int, dim::Int)
 Calculate slice of the full problem vector for a given time step `t`, starting position `pos1`, and ending position `pos2`.
 
@@ -70,7 +75,7 @@ julia> Z[slice(2, 1, 3, 3)]
 slice(t::Int, pos1::Int, pos2::Int, dim::Int) =
     index(t, pos1, dim):index(t, pos2, dim)
 
-"""@doc
+"""
     slice(t::Int, pos::Int, dim::Int)
 Calculate slice of the problem vector for a given time step `t`, up to position `pos`.
 equivalent to `slice(t, 1, pos, dim)`.
@@ -81,7 +86,7 @@ julia> Z[slice(2, 2, 3)]
 """
 slice(t::Int, pos::Int, dim::Int) = slice(t, 1, pos, dim)
 
-"""@doc
+"""
     slice(t::Int, dim::Int; stretch=0)
     Calculate slice of the problem vector for a given time step `t`, with an optional stretch parameter
 ```jldoctest
@@ -91,7 +96,7 @@ julia> Z[slice(2, 3; stretch=1)]
 """
 slice(t::Int, dim::Int; stretch=0) = slice(t, 1, dim + stretch, dim)
 
-"""@doc
+"""
     slice(t::Int, indices::AbstractVector{Int}, dim::Int)
     Calculate slice of the problem vector for a given time step `t` and a vector of indices `indices`.
 ```jldoctest
@@ -104,7 +109,7 @@ julia> Z[slice(2, [1, 3], 3)]
 slice(t::Int, indices::AbstractVector{Int}, dim::Int) =
     dim * (t - 1) .+ indices
 
-"""@doc
+"""
     slice(ts::UnitRange{Int}, dim::Int)
 Calculate slice of the problem vector for a range of time steps `ts` that covers each of the knot-points in those steps.
 ```jldoctest

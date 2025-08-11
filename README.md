@@ -39,11 +39,10 @@ With this, the user is still responsible for keeping track of the component indi
 
 ## Installation
 
-This package is not yet registered.  To install, use the following command:
+TrajectoryIndexingUtils.jl is registered! Install in the REPL by entering pkg mode with `]` and then running 
 
 ```julia
-using Pkg
-Pkg.add(url="https://github.com/harmoniqs/TrajectoryIndexingUtils.jl", rev="main")
+pkg> add TrajectoryIndexingUtils
 ```
 
 ## Methods 
@@ -64,11 +63,3 @@ slice(t::Int, pos1::Int, pos2::Int, dim::Int) -> zₜ[pos1:pos2]
 slice(t::Int, indices::AbstractVector{Int}, dim::Int) -> zₜ[indices]
 slice(ts::UnitRange{Int}, dim::Int) -> vec(zₜ for t ∈ ts)
 ```
-
-## TODO
-
-- [ ] Add tests
-- [ ] Add examples 
-- [ ] Add documentation 
-- [ ] Add methods that take in trajectory vector as the first argument
-- [ ] Add `block` function for accessing blocks of matrices with trajectory structure, e.g. jacobians & hessians

@@ -40,5 +40,5 @@ jobs:
           julia --project=docs -e '
             using Documenter: DocMeta, doctest
             using TrajectoryIndexingUtils
-            DocMeta.setdocmeta!(TrajectoryIndexingUtils, :DocTestSetup, :(using TrajectoryIndexingUtils; Z = collect(1:12); dim = 3); recursive=true)
+            DocMeta.setdocmeta!(TrajectoryIndexingUtils, :DocTestSetup, :(using TrajectoryIndexingUtils; Z = collect(1.5:12.5); dim = 3); recursive=true)
             doctest(TrajectoryIndexingUtils)'

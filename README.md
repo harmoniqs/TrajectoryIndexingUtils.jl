@@ -39,11 +39,10 @@ With this, the user is still responsible for keeping track of the component indi
 
 ## Installation
 
-This package is not yet registered.  To install, use the following command:
+TrajectoryIndexingUtils.jl is registered! Install in the REPL by entering pkg mode with `]` and then running 
 
 ```julia
-using Pkg
-Pkg.add(url="https://github.com/harmoniqs/TrajectoryIndexingUtils.jl", rev="main")
+pkg> add TrajectoryIndexingUtils
 ```
 
 ## Methods 
@@ -65,10 +64,38 @@ slice(t::Int, indices::AbstractVector{Int}, dim::Int) -> zₜ[indices]
 slice(ts::UnitRange{Int}, dim::Int) -> vec(zₜ for t ∈ ts)
 ```
 
-## TODO
 
-- [ ] Add tests
-- [ ] Add examples 
-- [ ] Add documentation 
-- [ ] Add methods that take in trajectory vector as the first argument
-- [ ] Add `block` function for accessing blocks of matrices with trajectory structure, e.g. jacobians & hessians
+### Building Documentation
+This package uses a Documenter config that is shared with many of our other repositories. To build the docs, you will need to run the docs setup script to clone and pull down the utility. 
+```
+# first time only
+./docs/get_docs_utils.sh   # or ./get_docs_utils.sh if cwd is in ./docs/
+```
+
+To build the docs pages:
+```
+julia --project=docs docs/make.jl
+```
+
+or editing the docs live:
+```
+julia --project=docs
+> using LiveServer, Piccolo, Revise
+> servedocs(skip_files=["docs/src/index.md"])
+```
+
+> **Note:** `servedocs` needs to watch a subset of the files in the `docs/` folder. If it watches files that are generated on a docs build/re-build, `servedocs` will continuously try to re-serve the pages.
+> 
+> To prevent this, ensure all generated files are included in the skip dirs or skip files args for `servedocs`.
+
+For example, if we forget index.md like so:
+```
+julia --project=docs
+> using LiveServer, Piccolo, Revise
+> servedocs()
+```
+it will not build and serve.
+
+-----
+
+*"It seems that perfection is attained not when there is nothing more to add, but when there is nothing more to take away." - Antoine de Saint-Exupéry*

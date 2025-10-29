@@ -5,6 +5,8 @@ on:
     branches:
       - main
     tags: ['*']
+  repository_dispatch:
+    types: [tagbot-release-created]
 concurrency:
   # Skip intermediate builds: always.
   # Cancel intermediate builds: only if it is a pull request build.
@@ -42,3 +44,29 @@ jobs:
             using TrajectoryIndexingUtils
             DocMeta.setdocmeta!(TrajectoryIndexingUtils, :DocTestSetup, :(using TrajectoryIndexingUtils; Z = collect(1.5:12.5); dim = 3); recursive=true)
             doctest(TrajectoryIndexingUtils)'
+
+  tagbot-dispatch:
+    name: Dispatch on TagBot Release
+    runs-on: ubuntu-latest
+    needs: docs
+    if: github.event_name == 'repository_dispatch'
+    steps:
+      - name: Dispatch PiccoloMultiDocs workflow
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: harmoniqs/PiccoloMultiDocs.jl
+          event-type: rebuild-docs
+
+  tag-push-dispatch:
+    name: Dispatch on Tag Push
+    runs-on: ubuntu-latest
+    needs: docs
+    if: github.ref_type == 'tag'
+    steps:
+      - name: Dispatch PiccoloMultiDocs workflow
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          repository: harmoniqs/PiccoloMultiDocs.jl
+          event-type: rebuild-docs

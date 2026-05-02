@@ -68,7 +68,7 @@ julia> Z[slice(2, 3; stretch=1)]
  7.5
 ```
 """
-slice(t::Int, dim::Int; stretch=0)::AbstractVector = slice(t, 1, dim + stretch, dim)
+slice(t::Int, dim::Int; stretch = 0)::AbstractVector = slice(t, 1, dim + stretch, dim)
 
 """
     slice(t::Int, indices::AbstractVector{Int}, dim::Int)
